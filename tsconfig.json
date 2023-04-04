@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "module": "CommonJS",
     "target": "es2021",
     "jsx": "react",
@@ -9,5 +9,5 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
   },
-  "include": ["src/**/*"],
+  "include": ["app/**/*"],
 }
