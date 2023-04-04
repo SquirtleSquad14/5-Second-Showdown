@@ -1,5 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Oauth from "./Oauth";
+import { googleLogout } from "@react-oauth/google";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
@@ -22,5 +25,21 @@ const App = (): JSX.Element => {
     </BrowserRouter>
   )
 }
+
+
+
+
+const App: React.FC<any> = () => {
+  const [userID, setUserID] = useState<any>();
+
+  return (
+    <div>
+      <Oauth setUserID={setUserID} />
+      <div>hello world</div>
+    </div>
+  );
+};
+
+export default App;
 
 export default App;
