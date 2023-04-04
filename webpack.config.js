@@ -1,7 +1,8 @@
 const path = require("path")
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: "./app/client/index.jsx",
+    entry: "./app/client/index.js",
 
     module: {
         rules: [
@@ -11,6 +12,19 @@ module.exports = {
         ],
     },
     
+    devServer: {
+        static: {
+          directory: path.join(__dirname, 'dist'),
+        },
+        port: 8080,
+        hot: true,
+        proxy: {
+          '/api/**': {
+            target: 'http://localhost:3000',
+          },
+        },
+      },
+
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "index_bundle.js"
