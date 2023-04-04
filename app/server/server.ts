@@ -1,16 +1,20 @@
-const express = require("express");
+const express = require('express');
+const path = require('path')
 const app = express();
 const port = 3000;
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
 
+app.use(express.static(path.resolve(__dirname, '../client')))
+
 // ---------------------ROUTES---------------------
 
+
 // error handler
-app.use((err: any, req: any, res: any, next: any) => {
+app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).send({ error: err });
 });
