@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Player1 from '../assets/Player1.png';
 
 const Battle = (): JSX.Element => {
   return (
