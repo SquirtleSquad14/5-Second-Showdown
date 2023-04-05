@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Home = (): JSX.Element => {
   return (
     <div>
-      <h1>Are you Ready?</h1>
+      <h1>Want More?</h1>
 
       <div>Animation will go here, changes on looking for players</div>
 
