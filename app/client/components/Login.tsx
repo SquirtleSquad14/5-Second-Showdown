@@ -5,27 +5,39 @@ import Oauth from "../Oauth";
 import { googleLogout } from "@react-oauth/google";
 import "../styles/login.css"
 
-type Props = {};
+type Props = {
+
+};
 
 const Login = ({}: Props): JSX.Element => {
     const [userID, setUserID] = useState<any>();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    // const [username, setUsername] = useState();
+    // const [password, setPassword] = useState();
 
   return (
     <div>
-      <div className="login-container">
+      <div>
         <h1 id="login-banner">5 Second Showdown Login</h1>
       </div>
-      <div>
-        <form id='login-form' action='/login' method='POST' >
-          <input type="text" id="uname" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
-          <input type="text" id="pword" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
-          <input type="button" value="Submit" />
-          <input type="button" value="Sign Up" />
+      <div className="form-container">
+        <form id='input-form' action='/login' method='POST' >
+          <div>
+            <input type="text" id="uname" placeholder="Username"></input> 
+          </div>
+          <div>
+            <input type="text" id="pword" placeholder="Password"></input>
+          </div>
+          <div className= "choose-btns">
+            <button id="submit-btn">Submit</button>
+            {/* <input type="button" id="submit-btn" value="Submit" />
+            <input type="button" id="signup-btn" value="Sign Up" /> */}
+          </div>
         </form>
-        <div>
+        <div className="google-btn">
           <Oauth setUserID={setUserID} />
+       </div>
+       <div>
+          <button id="signup-btn"><Link id="signup-btn" to='/signup'>Sign Up</Link></button>
        </div>
       </div>
 
