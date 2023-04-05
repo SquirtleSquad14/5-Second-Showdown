@@ -42,99 +42,123 @@ const Battle = (props): JSX.Element => {
 
   // handles when a player(s) didnt attack
   const handleMissingAttacks = (playerAttack, opponentAttack) => {
-    if (!playerAttack) {
+    let urChoice;
+    let opChoice;
+
+    if (opponentAttack === '' && playerAttack === '') {
+      setOpponentChoice('punch');
+      opChoice = 'punch';
+      setPlayerChoice('punch');
+      urChoice = 'punch';
+    }
+
+    if (playerAttack && opponentAttack) {
+      opChoice = playerAttack;
+      urChoice = opponentChoice;
+    }
+
+    if (playerAttack === '') {
       switch (true) {
         case (opponentAttack === 'laser'):
-          playerAttack = 'punch';
+          setPlayerChoice('punch');
+          urChoice = 'punch';
           break;
         case (opponentAttack === 'punch'):
-          playerAttack = 'teleport';
+          setPlayerChoice('teleport');
+          urChoice = 'teleport';
           break;
         case (opponentAttack === 'teleport'):
-          playerAttack = 'laser';
+          setPlayerChoice('laser');
+          urChoice = 'laser';
           break;
       }
     } 
 
-    if (!opponentAttack) {
+    if (opponentAttack === '') {
       switch (true) {
         case (playerAttack === 'laser'):
-          opponentAttack = 'punch'
+          setOpponentChoice('punch');
+          opChoice = 'punch';
           break;
         case (playerAttack === 'punch'):
-          opponentAttack = 'teleport'
+          setOpponentChoice('teleport');
+          opChoice = 'teleport';
           break;
         case (playerAttack === 'teleport'):
-          opponentAttack = 'laser';
+          setOpponentChoice('laser');
+          opChoice = 'laser';
           break;
       }
     } 
 
-    if (!opponentAttack && !playerAttack) {
-      opponentAttack = 'punch';
-      playerAttack = 'punch';
+    return {
+      urChoice: urChoice,
+      opChoice: opChoice
     }
   }
 
   // when timer reaches zero we will check players choices then render a gif accordingly
   useEffect(() => {
     if (timer === 0) {
+      console.log('checking choices')
       // clear the set interval
       clearInterval(interval.current);
 
       // designate if player didnt choose
-      handleMissingAttacks(playerChoice, opponentChoice);
+      const { urChoice, opChoice } = handleMissingAttacks(playerChoice, opponentChoice);
+
+      console.log('u:', urChoice, 'them:', opChoice)
 
       switch(true) {
-        case (playerChoice === 'laser' && opponentChoice === 'punch'):
+        case (urChoice === 'laser' && opChoice === 'punch'):
           console.log('shot the bro');
           setCurrentAnimation('../assets/lzr-pnch.gif');
           setResultAlert('You Won!')
           break;
 
-        case (playerChoice === 'laser' && opponentChoice === 'laser'):
+        case (urChoice === 'laser' && opChoice === 'laser'):
           console.log('oof we shot eachother');
           setCurrentAnimation('../assets/lzr-lzr.gif');
           setResultAlert('You tied...')
           break;
 
-        case (playerChoice === 'laser' && opponentChoice === 'teleport'):
+        case (urChoice === 'laser' && opChoice === 'teleport'):
           console.log('dang hes fast');
           setCurrentAnimation('../assets/lzr-tp.gif');
           setResultAlert('You lost...')
           break;
 
-        case (playerChoice === 'teleport' && opponentChoice === 'laser'):
+        case (urChoice === 'teleport' && opChoice === 'laser'):
           console.log('dodged and got the bro');
           setCurrentAnimation('../assets/tp-lzr.gif');
           setResultAlert('You Won!')
           break;
 
-        case (playerChoice === 'teleport' && opponentChoice === 'punch'):
+        case (urChoice === 'teleport' && opChoice === 'punch'):
           console.log('oof he predicted my tp');
           setCurrentAnimation('../assets/tp-pnch.gif');
           setResultAlert('You lost...')
           break;
 
-        case (playerChoice === 'teleport' && opponentChoice === 'teleport'):
+        case (urChoice === 'teleport' && opChoice === 'teleport'):
           console.log('lol we switched places');
           setCurrentAnimation('../assets/tp-tp.gif');
           setResultAlert('You tied...')
           break;
 
-        case (playerChoice === 'punch' && opponentChoice === 'punch '):
+        case (urChoice === 'punch' && opChoice === 'punch '):
           console.log('dang we punched eachother');
           setCurrentAnimation('../assets/pnch-pnch.gif');
           setResultAlert('You tied...')
           break;
 
-        case (playerChoice === 'punch' && opponentChoice === 'laser'):
+        case (urChoice === 'punch' && opChoice === 'laser'):
           console.log('oh yea he has a gun');
           setCurrentAnimation('../assets/pnch-lzr.gif');
           setResultAlert('You lost...')
           break;
 
-        case (playerChoice === 'punch' && opponentChoice === 'teleport'):
+        case (urChoice === 'punch' && opChoice === 'teleport'):
           console.log('fist go brrrrr');
           setCurrentAnimation('../assets/pnch-tp.gif');
           setResultAlert('You Won!')
@@ -179,7 +203,7 @@ const Battle = (props): JSX.Element => {
 
       {/* <div id="players-container">
         <div>
-          <img id="img1" src='../assets/Player1.png' />
+          <img id="img1" src="../assets/Player1.png" />
         </div>
         <div>
           <img id="img2" src="../assets/Player2.png" />
@@ -196,8 +220,7 @@ const Battle = (props): JSX.Element => {
           <button onClick={startMatchHandler}>Start Match {numPlayersReady}/2</button>}
       </div>
     </div>
-  )
-    
-}
+  );
+};
 
 export default Battle;

@@ -1,22 +1,34 @@
-const express = require('express');
-const path = require('path')
-const app = express();
+import express, { Request, Response, NextFunction } from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import controller from "../server/controller";
+
+const app: express.Express = express();
 const { createServer } = require('http');
 const { Server } = require('socket.io');
-const port = 3000;
+const port: number = 3000;
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+
+let rooms = [];
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
 
-app.use(express.static(path.resolve(__dirname,'../client')));
+app.use(express.static(path.resolve(__dirname, "../client")));
 
-// ---------------------ROUTES---------------------
+app.get("/", (req, res) => res.redirect("/login"));
 
-let rooms = [];
+app.get("/users", controller.getAllUsers, (req, res) => res.status(200));
+
+app.post("/getUser", controller.getUser, (req, res) => res.status(200))
+
+app.post("/signup", controller.signUp, (req, res) => res.status(200).json(res.locals.urlExtension));
+
+app.post("/login", controller.login, (req, res) => res.status(200).json(res.locals.urlExtension));
+
+app.post("/google", controller.googleSL, (req, res) => res.status(200));
 
 app.get('/api', (req, res) => {
   res.status(200).json(rooms);
@@ -27,8 +39,8 @@ app.post('/api', (req, res) => {
   res.status(200).send('success');
 })
 
-app.use((err, req, res, next) => {
-  console.log('err', err);
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
   res.status(500).send({ error: err });
 });
 

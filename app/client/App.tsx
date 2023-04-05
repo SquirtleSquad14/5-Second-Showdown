@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Oauth from "./Oauth";
+// import Oauth from "./components/Oauth";
 import { googleLogout } from "@react-oauth/google";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -12,39 +12,53 @@ import './styles/styles.css'
 
 const socket = io('/');
 
+const App: React.FC = (): JSX.Element => {
 
-const App = (): JSX.Element => {
+
+  const [userData, setUserData] = useState<any>()
+  const [username, setUsername] = useState<any>()
+  const [googleID, setGoogleID] = useState<any>()
+
+  const getUserInfo = async () => {
+    console.log('getuserinfo')
+    try {
+      const response = await fetch('/getUser', {
+        method: "POST",
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({username: username})
+      })
+      const data = await response.json()
+      console.log('user data: ', data)
+      setUserData(data)
+    }catch (err) {
+      console.log("error in getUserInfo", err);
+    }
+  }
+  
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   return (
     <BrowserRouter>
-      <h1>5 Second Showdown</h1>
+
+      <h3>Name: {username}</h3>
+      <h3>Wins: {}</h3>
       <Link to="/login">Login</Link>
+      &nbsp;&nbsp;
       <Link to="/signup">Signup</Link>
+      &nbsp;&nbsp;
       <Link to="/home">Home</Link>
-      <Link to="/battle">Battle</Link>
       <Routes>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/home" element={<Home socket={socket} />}></Route>
-        <Route path="/battle" element={<Battle socket={socket} />}></Route>
+        <Route path="/login" element={<Login setUsername={setUsername} setGoogleID={setGoogleID}/>}></Route>
+        <Route path="/signup" element={<Signup setUsername={setUsername} setGoogleID={setGoogleID}/>}></Route>
+        <Route path="/home" element={<Home socket={socket} username={username} googleID={googleID}/>}></Route>
       </Routes>
     </BrowserRouter>
   )
 }
 
-
-
-
-// const App: React.FC<any> = () => {
-//   const [userID, setUserID] = useState<any>();
-
-//   return (
-//     <div>
-//       <Oauth setUserID={setUserID} />
-//       <div>hello world</div>
-//     </div>
-//   );
-// };
-
-// export default App;;
-
 export default App;
+
