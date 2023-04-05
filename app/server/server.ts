@@ -12,16 +12,19 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(cors());
 
-// serve static files
-app.use(express.static(path.resolve(__dirname, '../client')))
+app.use(express.static(path.resolve(__dirname,'../client')));
 
 // ---------------------ROUTES---------------------
 
-const rooms = [{id: 'room1'}, {id: 'room2'}];
+let rooms = [];
 
 app.get('/api', (req, res) => {
-  console.log('sdjdkdja');
   res.status(200).json(rooms);
+})
+
+app.post('/api', (req, res) => {
+  rooms.push(req.body.room);
+  res.status(200).send('success');
 })
 
 app.use((err, req, res, next) => {
@@ -44,8 +47,28 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   console.log(`user connected ${socket.id}`);
+
+  socket.on('join_room', (data) => {
+    socket.join(data);
+    const roomSize = io.sockets.adapter.rooms.get(data).size;
+    if (roomSize === 2) {
+      console.log('capacity hit');
+      rooms = rooms.filter((room) => room !== data);
+      console.log(rooms);
+      socket.broadcast.emit('receive_new_rooms', rooms);
+    }
+  })
   
   socket.on('send_choice', (data) => {
-    socket.broadcast.emit('receive_choice', data);
+    socket.to(data.room).emit('receive_choice', data);
   });
+
+  socket.on('add_room', (data) => {
+    console.log('add room');
+    socket.broadcast.emit('receive_new_rooms', rooms);
+  })
+
+  socket.on('player_ready', (data) => {
+    socket.to(data.room).emit('opponent_ready', data.numPlayers);
+  })
 })

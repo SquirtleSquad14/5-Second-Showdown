@@ -4,8 +4,11 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Battle from "./components/Battle";
-
+import {io} from "socket.io-client";
 import './styles/styles.css'
+
+const socket = io('/');
+
 
 const App = (): JSX.Element => {
   return (
@@ -18,8 +21,8 @@ const App = (): JSX.Element => {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/home" element={<Home />}></Route>
-        <Route path="/battle" element={<Battle />}></Route>
+        <Route path="/home" element={<Home socket={socket} />}></Route>
+        <Route path="/battle" element={<Battle socket={socket} />}></Route>
       </Routes>
     </BrowserRouter>
   )
