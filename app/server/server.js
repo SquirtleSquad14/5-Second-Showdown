@@ -13,11 +13,16 @@ app.use(cors());
 
 // ---------------------ROUTES---------------------
 
-const rooms = [{id: 'room1'}, {id: 'room2'}];
+const rooms = [];
 
 app.get('/api', (req, res) => {
   console.log('sdjdkdja');
   res.status(200).json(rooms);
+})
+
+app.post('/api', (req, res) => {
+  rooms.push(req.body.username);
+  res.status(200).send('success');
 })
 
 app.use((err, req, res, next) => {
@@ -40,8 +45,17 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   console.log(`user connected ${socket.id}`);
+
+  socket.on('join_room', (data) => {
+    socket.join(data);
+  })
   
   socket.on('send_choice', (data) => {
-    socket.broadcast.emit('receive_choice', data);
+    socket.to(data.room).emit('receive_choice', data);
   });
+
+  socket.on('add_room', (data) => {
+    console.log('add room');
+    socket.broadcast.emit('receive_new_room', data)
+  })
 })
