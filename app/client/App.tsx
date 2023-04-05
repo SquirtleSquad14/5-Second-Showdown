@@ -34,17 +34,17 @@ const App = (): JSX.Element => {
 
 
 
-const App: React.FC<any> = () => {
-  const [userID, setUserID] = useState<any>();
+// const App: React.FC<any> = () => {
+//   const [userID, setUserID] = useState<any>();
 
-  return (
-    <div>
-      <Oauth setUserID={setUserID} />
-      <div>hello world</div>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <Oauth setUserID={setUserID} />
+//       <div>hello world</div>
+//     </div>
+//   );
+// };
 
-export default App;
+// export default App;
 
 export default App;
