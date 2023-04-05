@@ -6,7 +6,7 @@ const Battle = (): JSX.Element => {
     <div>
       <div id="players-container">
         <div>
-          <img id="img1" src='../assets/Player1.png' />
+          <img id="img1" src="../assets/Player1.png" />
         </div>
 
         <div>
@@ -14,8 +14,7 @@ const Battle = (): JSX.Element => {
         </div>
       </div>
     </div>
-  )
-    
-}
+  );
+};
 
 export default Battle;

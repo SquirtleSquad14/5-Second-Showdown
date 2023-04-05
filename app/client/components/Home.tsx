@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Login from '../components/Login'
-
+import Login from "../components/Login";
 
 const Home = (): JSX.Element => {
   // const [token, setToken] = useState();
@@ -10,8 +9,7 @@ const Home = (): JSX.Element => {
   //   return <Login setToken={setToken} />
   // }
 
-  return <div>Home</div>
-    
-}
+  return <div>Home</div>;
+};
 
 export default Home;
