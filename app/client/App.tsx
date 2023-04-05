@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Battle from "./components/Battle";
+import './styles/styles.css'
 
 const App: React.FC = (): JSX.Element => {
   return (
