@@ -71,7 +71,7 @@ const Login: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element 
         <div>
           <button id="signup-btn">
             <Link id="signup-btn" to="/signup">
-              Sign Up
+              Sign Up Here
             </Link>
           </button>
         </div>
