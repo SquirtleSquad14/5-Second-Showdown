@@ -2,7 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./app/client/index.tsx",
+    entry: "./app/client/index.tsx",
 
   module: {
     rules: [
@@ -19,9 +19,6 @@ module.exports = {
     port: 8080,
     hot: true,
     proxy: {
-      // "/api/**": {
-      //   target: "http://localhost:3000",
-      // },
       "/**": {
         target: "http://localhost:3000",
       }
