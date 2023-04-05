@@ -2,9 +2,19 @@ import React, {useState, useEffect, useRef} from "react";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
 import Battle from "./Battle";
+import Login from "../components/Login";
+import '../styles/home.css';
+interface props {
+  username: any
+  googleID: any
+  socket: any
+}
 
-const Home = (props): JSX.Element => {
-  const {socket} = props;
+const Home: React.FC<props> = ({username, googleID, socket}: props): JSX.Element => {
+
+  const [userData, setUserData] = useState()
+
+  // const {socket} = props;
 
   const roomRef = useRef(null);
   const [activeRooms, setActiveRooms] = useState([]);
@@ -38,34 +48,6 @@ const Home = (props): JSX.Element => {
     setSelectedRoom(e.currentTarget.id);
   }
 
-import Login from "../components/Login";
-
-interface props {
-  username: any
-  googleID: any
-}
-
-const Home: React.FC<props> = ({username, googleID}: props): JSX.Element => {
-
-  const [userData, setUserData] = useState()
-
-  const getUserInfo = async () => {
-    try {
-      const response = await fetch('/getUser', {
-        method: "POST",
-        headers: {
-          'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify({username: username})
-      })
-      const data = await response.json()
-      console.log('user data: ', data)
-      setUserData(data)
-    }catch (err) {
-      console.log("error in getUserInfo", err);
-    }
-  }
-
   // const getGoogleInfo = async () => {
   //   try {
   //     const response = await fetch('/getUser', {
@@ -81,10 +63,6 @@ const Home: React.FC<props> = ({username, googleID}: props): JSX.Element => {
   //     console.log("error");
   //   }
   // }
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
  
   return (
     <div>
@@ -92,13 +70,17 @@ const Home: React.FC<props> = ({username, googleID}: props): JSX.Element => {
       <div>
         <input ref={roomRef}></input>
         <button onClick={createRoomHandler}>Create Room</button>
-        {activeRooms.map((room): JSX.Element => {
-          return <button onClick={joinRoomButtonHandler} key={room} id={room}>{room}</button>
-        })}
+        <br></br>
+        <div className='room-container'>
+          {activeRooms.map((room): JSX.Element => {
+            return <button className='room-button' onClick={joinRoomButtonHandler} key={room} id={room}>{room}</button>
+          })}
+        </div>
       </div>}
     </div>
   )
     
 }
+
 
 export default Home;

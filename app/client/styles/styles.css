@@ -1,3 +1,7 @@
+body {
+  background-color: rgb(114, 120, 206);
+}
+
 #result-alert {
   z-index: 2;
   border: 2px solid black;

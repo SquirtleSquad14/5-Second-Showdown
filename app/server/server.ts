@@ -9,6 +9,8 @@ const { Server } = require('socket.io');
 const port: number = 3000;
 const cors = require('cors');
 
+let rooms = [];
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -28,15 +30,8 @@ app.post("/login", controller.login, (req, res) => res.status(200).json(res.loca
 
 app.post("/google", controller.googleSL, (req, res) => res.status(200));
 
-let rooms = [];
-
 app.get('/api', (req, res) => {
   res.status(200).json(rooms);
-})
-
-app.post('/api', (req, res) => {
-  rooms.push(req.body.room);
-  res.status(200).send('success');
 })
 
 app.post('/api', (req, res) => {

@@ -12,17 +12,40 @@ import './styles/styles.css'
 
 const socket = io('/');
 
-
-
-
 const App: React.FC = (): JSX.Element => {
 
+
+  const [userData, setUserData] = useState<any>()
   const [username, setUsername] = useState<any>()
   const [googleID, setGoogleID] = useState<any>()
+
+  const getUserInfo = async () => {
+    console.log('getuserinfo')
+    try {
+      const response = await fetch('/getUser', {
+        method: "POST",
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({username: username})
+      })
+      const data = await response.json()
+      console.log('user data: ', data)
+      setUserData(data)
+    }catch (err) {
+      console.log("error in getUserInfo", err);
+    }
+  }
+  
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <BrowserRouter>
       <h1>5 Second Showdown</h1>
+      <h3>Name: {username}</h3>
+      <h3>Wins: {}</h3>
       <Link to="/login">Login</Link>
       <Link to="/signup">Signup</Link>
       <Link to="/home">Home</Link>
@@ -36,20 +59,6 @@ const App: React.FC = (): JSX.Element => {
     </BrowserRouter>
   )
 }
-
-
-
-
-// const App: React.FC<any> = () => {
-//   const [userID, setUserID] = useState<any>();
-
-//   return (
-//     <div>
-//       <Oauth setUserID={setUserID} />
-//       <div>hello world</div>
-//     </div>
-//   );
-// };
 
 export default App;
 
