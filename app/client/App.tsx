@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Oauth from "./Oauth";
+import Oauth from "./components/Oauth";
 import { googleLogout } from "@react-oauth/google";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Battle from "./components/Battle";
 
-const App = (): JSX.Element => {
+const App: React.FC = (): JSX.Element => {
   return (
     <BrowserRouter>
       <h1>5 Second Showdown</h1>
@@ -23,20 +23,6 @@ const App = (): JSX.Element => {
         <Route path="/battle" element={<Battle />}></Route>
       </Routes>
     </BrowserRouter>
-  )
-}
-
-
-
-
-const App: React.FC<any> = () => {
-  const [userID, setUserID] = useState<any>();
-
-  return (
-    <div>
-      <Oauth setUserID={setUserID} />
-      <div>hello world</div>
-    </div>
   );
 };
 

@@ -1,20 +1,26 @@
-const express = require('express');
-const path = require('path')
-const app = express();
-const port = 3000;
-const cookieParser = require('cookie-parser');
+import express, { Request, Response, NextFunction } from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import controller from "./controller";
+
+const app: express.Express = express();
+const port: number = 3000;
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(express.static(path.resolve(__dirname, '../client')))
+app.use(express.static(path.resolve(__dirname, "../client")));
 
-// ---------------------ROUTES---------------------
+app.get("/users", controller.getAllUsers, (req, res) => res.status(200));
 
+app.post("/signup", controller.signUp, (req, res) => res.status(200));
 
-// error handler
-app.use((err, req, res, next) => {
+app.post("/login", controller.login, (req, res) => res.status(200));
+
+app.post("/google", controller.googleSL, (req, res) => res.status(200));
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
   res.status(500).send({ error: err });
 });
