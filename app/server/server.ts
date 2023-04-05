@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path')
 const app = express();
 const { createServer } = require('http');
 const { Server } = require('socket.io');
@@ -10,6 +11,9 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(cors());
+
+// serve static files
+app.use(express.static(path.resolve(__dirname, '../client')))
 
 // ---------------------ROUTES---------------------
 
