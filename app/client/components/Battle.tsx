@@ -11,6 +11,7 @@ const Battle = (): JSX.Element => {
   const [playerChoice, setPlayerChoice] = useState('');
   const [opponentChoice, setOpponentChoice] = useState('');
   const [currentAnimation, setCurrentAnimation] = useState('../assets/idle.gif');
+  const [resultAlert, setResultAlert] = useState('')
 
   const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ const Battle = (): JSX.Element => {
 
   // when socket changes (meaning we received data from the web socket, ie our opponent choose an attack) we  update our Opponent's choice
   useEffect(() => {
-    console.log('socket', socket);
+    // console.log('socket', socket);
     socket.on('receive_choice', (data) => {
       setOpponentChoice(data.choice);
     })
@@ -34,50 +35,58 @@ const Battle = (): JSX.Element => {
         case (playerChoice === 'laser' && opponentChoice === 'punch'):
           console.log('shot the bro');
           setCurrentAnimation('../assets/lzr-pnch.gif');
+          setResultAlert('You Won!')
           break;
 
         case (playerChoice === 'laser' && opponentChoice === 'laser'):
           console.log('oof we shot eachother');
           setCurrentAnimation('../assets/lzr-lzr.gif');
+          setResultAlert('You tied...')
           break;
 
         case (playerChoice === 'laser' && opponentChoice === 'teleport'):
           console.log('dang hes fast');
           setCurrentAnimation('../assets/lzr-tp.gif');
+          setResultAlert('You lost...')
           break;
 
         case (playerChoice === 'teleport' && opponentChoice === 'laser'):
           console.log('dodged and got the bro');
           setCurrentAnimation('../assets/tp-lzr.gif');
+          setResultAlert('You Won!')
           break;
 
         case (playerChoice === 'teleport' && opponentChoice === 'punch'):
           console.log('oof he predicted my tp');
           setCurrentAnimation('../assets/tp-pnch.gif');
+          setResultAlert('You lost...')
           break;
 
         case (playerChoice === 'teleport' && opponentChoice === 'teleport'):
           console.log('lol we switched places');
           setCurrentAnimation('../assets/tp-tp.gif');
+          setResultAlert('You tied...')
           break;
 
         case (playerChoice === 'punch' && opponentChoice === 'punch'):
           console.log('dang we punched eachother');
           setCurrentAnimation('../assets/pnch-pnch.gif');
+          setResultAlert('You tied...')
           break;
 
         case (playerChoice === 'punch' && opponentChoice === 'laser'):
           console.log('oh yea he has a gun');
           setCurrentAnimation('../assets/pnch-lzr.gif');
+          setResultAlert('You lost...')
           break;
 
         case (playerChoice === 'punch' && opponentChoice === 'teleport'):
           console.log('fist go brrrrr');
           setCurrentAnimation('../assets/pnch-tp.gif');
+          setResultAlert('You Won!')
           break;
       };
-      
-      setTimeout(() => navigate('/home'), 4000)
+      setTimeout(() => navigate('/home'), 3800)
     }
   }, [playerChoice, opponentChoice])
 
@@ -101,9 +110,11 @@ const Battle = (): JSX.Element => {
           Their Attack: {opponentChoice ? `${opponentChoice}` : 'N/A'}
         </div>
       </div>
+      <div id="battle-scene">
+        <div id="result-alert">{resultAlert}</div>
 
-      <img src={currentAnimation} id="currentAnimation"/>
-
+        <img src={currentAnimation} id="currentAnimation"/>
+      </div>
       {/* <div id="players-container">
         <div>
           <img id="img1" src='../assets/Player1.png' />
