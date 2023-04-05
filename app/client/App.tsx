@@ -25,11 +25,10 @@ const App = () => {
     socket.on('receive_choice', (data) => {
       setOpponentChoice(data.choice);
     })
-    socket.on('receive_new_room', (data) => {
+    socket.on('receive_new_rooms', (data) => {
       console.log('receive', data);
-      setActiveRooms((rooms) => [...rooms, data.username]);
+      setActiveRooms(data);
     })
-    console.log('socketed');
   }, [socket]);
 
   const sendChoice = (e: MouseEvent<HTMLButtonElement>) => {

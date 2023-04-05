@@ -13,7 +13,7 @@ app.use(cors());
 
 // ---------------------ROUTES---------------------
 
-const rooms = [];
+let rooms = [];
 
 app.get('/api', (req, res) => {
   console.log('sdjdkdja');
@@ -48,6 +48,13 @@ io.on('connection', (socket) => {
 
   socket.on('join_room', (data) => {
     socket.join(data);
+    const roomSize = io.sockets.adapter.rooms.get(data).size;
+    if (roomSize === 2) {
+      console.log('capacity hit');
+      rooms = rooms.filter((room) => room !== data);
+      console.log(rooms);
+      socket.broadcast.emit('receive_new_rooms', rooms);
+    }
   })
   
   socket.on('send_choice', (data) => {
@@ -56,6 +63,6 @@ io.on('connection', (socket) => {
 
   socket.on('add_room', (data) => {
     console.log('add room');
-    socket.broadcast.emit('receive_new_room', data)
+    socket.broadcast.emit('receive_new_rooms', rooms);
   })
 })
