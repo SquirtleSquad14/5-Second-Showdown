@@ -8,9 +8,7 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Battle from "./components/Battle";
 
-const App = (): JSX.Element => {
-  const [userID, setUserID] = useState<any>();
-
+const App: React.FC = (): JSX.Element => {
   return (
     <BrowserRouter>
       <h1>5 Second Showdown</h1>
