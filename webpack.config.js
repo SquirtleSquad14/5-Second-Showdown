@@ -22,6 +22,9 @@ module.exports = {
       "/api/**": {
         target: "http://localhost:3000",
       },
+      "/assets/**": {
+        target: "http://localhost:3000",
+      }
     },
   },
 
