@@ -1,6 +1,7 @@
 import React, {ChangeEvent, FormEvent} from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router'
 import "../styles/login.css";
 
 interface props {
@@ -9,6 +10,7 @@ interface props {
 }
 
 const Signup: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element => {
+  const navigate = useNavigate();
 
   const [usernameInput, setUsernameInput] = useState("")
   const [passwordInput, setPasswordInput] = useState("");
@@ -23,6 +25,7 @@ const Signup: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log('entering post request')
     try {
       const response = await fetch("/signup", {
         method: "POST",
@@ -30,7 +33,11 @@ const Signup: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username: usernameInput, password: passwordInput }),
-      });
+      })
+      
+      const urlExtension = await response.json();
+
+      navigate(`${urlExtension}`)
     } catch (error) {
       console.error(error);
     }

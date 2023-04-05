@@ -1,7 +1,8 @@
 import React, {ChangeEvent, FormEvent} from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Oauth from "./Oauth";
+// import Oauth from "./Oauth";
 import { googleLogout } from "@react-oauth/google";
 import "../styles/login.css";
 
@@ -13,18 +14,7 @@ interface props {
 }
 
 const Login: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element => {
-
-  // const [usernameInput, setUsernameInput] = useState("");
-  
-  // const handleInputChange = e => {
-  //   setUsernameInput(e.target.value);
-  // }
-  // const handleSubmit = e => {
-  //   //once hit submit, grab the username input and reset setUsername to it's value
-  //   //pass it down to homepage
-  //   e.preventDefault();
-  //   setUsername(usernameInput)
-  // }
+  const navigate = useNavigate();
   const [usernameInput, setUsernameInput] = useState("")
   const [passwordInput, setPasswordInput] = useState("");
 
@@ -46,6 +36,11 @@ const Login: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element 
         },
         body: JSON.stringify({ username: usernameInput, password: passwordInput }),
       });
+      setUsername(usernameInput)
+      const urlExtension = await response.json();
+      // console.log(urlExtension);
+      navigate(`${urlExtension}`)
+
     } catch (error) {
       console.error(error);
     }
@@ -65,14 +60,14 @@ const Login: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element 
             <input type="text" id="pword" placeholder="Password" onChange={handlePasswordChange}></input>
           </div>
           <div className="choose-btns">
-            <button id="submit-btn">Submit</button>
+            <button id="submit-btn" type='submit'>Submit</button>
             {/* <input type="button" id="submit-btn" value="Submit" />
             <input type="button" id="signup-btn" value="Sign Up" /> */}
           </div>
         </form>
-        <div className="google-btn">
+        {/* <div className="google-btn">
           <Oauth setGoogleID={setGoogleID} />
-        </div>
+        </div> */}
         <div>
           <button id="signup-btn">
             <Link id="signup-btn" to="/signup">

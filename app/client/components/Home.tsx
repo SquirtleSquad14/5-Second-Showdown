@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Login from "../components/Login";
 
 interface props {
-  username: string
+  username: any
   googleID: any
 }
 
@@ -14,40 +14,38 @@ const Home: React.FC<props> = ({username, googleID}: props): JSX.Element => {
   const getUserInfo = async () => {
     try {
       const response = await fetch('/getUser', {
-        method: "GET",
+        method: "POST",
         headers: {
           'Content-Type' : 'application/json',
         },
-        body: JSON.stringify({username})
+        body: JSON.stringify({username: username})
       })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('user data: ', data)
-        setUserData(data)})
+      const data = await response.json()
+      console.log('user data: ', data)
+      setUserData(data)
     }catch (err) {
-      console.log("error");
+      console.log("error in getUserInfo", err);
     }
   }
 
-  const getGoogleInfo = async () => {
-    try {
-      const response = await fetch('/getUser', {
-        method: "GET",
-        headers: {
-          'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify({googleID})
-      })
-      .then((res) => res.json())
-      .then((data) => setUserData(data))
-    }catch (err) {
-      console.log("error");
-    }
-  }
+  // const getGoogleInfo = async () => {
+  //   try {
+  //     const response = await fetch('/getUser', {
+  //       method: "GET",
+  //       headers: {
+  //         'Content-Type' : 'application/json',
+  //       },
+  //       body: JSON.stringify({googleID})
+  //     })
+  //     .then((res) => res.json())
+  //     .then((data) => setUserData(data))
+  //   }catch (err) {
+  //     console.log("error");
+  //   }
+  // }
 
   useEffect(() => {
-    if (username) getUserInfo();
-    else if (googleID) getGoogleInfo()
+    getUserInfo();
   }, []);
  
   return (

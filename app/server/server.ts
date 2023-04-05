@@ -20,11 +20,11 @@ app.get("/", (req, res) => res.redirect("/login"));
 
 app.get("/users", controller.getAllUsers, (req, res) => res.status(200));
 
-app.get("/getUser", controller.getUser, (req, res) => res.status(200))
+app.post("/getUser", controller.getUser, (req, res) => res.status(200))
 
-app.post("/signup", controller.signUp, (req, res) => res.status(200));
+app.post("/signup", controller.signUp, (req, res) => res.status(200).json(res.locals.urlExtension));
 
-app.post("/login", controller.login, (req, res) => res.status(200));
+app.post("/login", controller.login, (req, res) => res.status(200).json(res.locals.urlExtension));
 
 app.post("/google", controller.googleSL, (req, res) => res.status(200));
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Oauth from "./components/Oauth";
+// import Oauth from "./components/Oauth";
 import { googleLogout } from "@react-oauth/google";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
