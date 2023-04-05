@@ -49,7 +49,7 @@ const Login: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element 
   return (
     <div>
       <div>
-        <h1 id="login-banner">5 Second Showdown Login</h1>
+        <h1 id="login-banner">Login</h1>
       </div>
       <div className="form-container">
         <form onSubmit ={handleFormSubmit} id="input-form">
@@ -60,7 +60,7 @@ const Login: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element 
             <input type="text" id="pword" placeholder="Password" onChange={handlePasswordChange}></input>
           </div>
           <div className="choose-btns">
-            <button id="submit-btn" type='submit'>Submit</button>
+            <button id="submit-btn">Submit</button>
             {/* <input type="button" id="submit-btn" value="Submit" />
             <input type="button" id="signup-btn" value="Sign Up" /> */}
           </div>

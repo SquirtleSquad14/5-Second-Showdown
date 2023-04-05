@@ -43,18 +43,18 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <BrowserRouter>
-      <h1>5 Second Showdown</h1>
+
       <h3>Name: {username}</h3>
       <h3>Wins: {}</h3>
       <Link to="/login">Login</Link>
+      &nbsp;&nbsp;
       <Link to="/signup">Signup</Link>
+      &nbsp;&nbsp;
       <Link to="/home">Home</Link>
-      <Link to="/battle">Battle</Link>
       <Routes>
         <Route path="/login" element={<Login setUsername={setUsername} setGoogleID={setGoogleID}/>}></Route>
         <Route path="/signup" element={<Signup setUsername={setUsername} setGoogleID={setGoogleID}/>}></Route>
         <Route path="/home" element={<Home socket={socket} username={username} googleID={googleID}/>}></Route>
-        <Route path="/battle" element={<Battle socket={socket} />}></Route>
       </Routes>
     </BrowserRouter>
   )
