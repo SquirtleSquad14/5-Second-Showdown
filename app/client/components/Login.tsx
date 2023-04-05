@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent, FormEvent} from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Oauth from "./Oauth";
@@ -7,10 +7,49 @@ import "../styles/login.css";
 
 type Props = {};
 
-const Login = ({}: Props): JSX.Element => {
-  const [userID, setUserID] = useState<any>();
-  // const [username, setUsername] = useState();
-  // const [password, setPassword] = useState();
+interface props {
+  setUsername: any,
+  setGoogleID: any
+}
+
+const Login: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element => {
+
+  // const [usernameInput, setUsernameInput] = useState("");
+  
+  // const handleInputChange = e => {
+  //   setUsernameInput(e.target.value);
+  // }
+  // const handleSubmit = e => {
+  //   //once hit submit, grab the username input and reset setUsername to it's value
+  //   //pass it down to homepage
+  //   e.preventDefault();
+  //   setUsername(usernameInput)
+  // }
+  const [usernameInput, setUsernameInput] = useState("")
+  const [passwordInput, setPasswordInput] = useState("");
+
+  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUsernameInput(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPasswordInput(event.target.value);
+  };
+
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: usernameInput, password: passwordInput }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -18,12 +57,12 @@ const Login = ({}: Props): JSX.Element => {
         <h1 id="login-banner">5 Second Showdown Login</h1>
       </div>
       <div className="form-container">
-        <form id="input-form" action="/login" method="POST">
+        <form onSubmit ={handleFormSubmit} id="input-form">
           <div>
-            <input type="text" id="uname" placeholder="Username"></input>
+            <input type="text" id="uname" placeholder="Username" onChange={handleUsernameChange}></input>
           </div>
           <div>
-            <input type="text" id="pword" placeholder="Password"></input>
+            <input type="text" id="pword" placeholder="Password" onChange={handlePasswordChange}></input>
           </div>
           <div className="choose-btns">
             <button id="submit-btn">Submit</button>
@@ -32,7 +71,7 @@ const Login = ({}: Props): JSX.Element => {
           </div>
         </form>
         <div className="google-btn">
-          <Oauth setUserID={setUserID} />
+          <Oauth setGoogleID={setGoogleID} />
         </div>
         <div>
           <button id="signup-btn">

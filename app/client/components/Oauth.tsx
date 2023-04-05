@@ -3,10 +3,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 interface OauthProps {
-  setUserID: React.Dispatch<React.SetStateAction<any>>;
+  setGoogleID: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const Oauth: React.FC<OauthProps> = ({ setUserID }) => {
+const Oauth: React.FC<OauthProps> = ({ setGoogleID }) => {
   const [user, setUser] = useState([] as any);
   const [profile, setProfile] = useState<any>();
 
@@ -14,7 +14,7 @@ const Oauth: React.FC<OauthProps> = ({ setUserID }) => {
     onSuccess: (response: any) => {
       console.log("user data returned at login: ", response);
       setUser(response);
-      setUserID(response.authuser);
+      setGoogleID(response.authuser);
     },
     onError: (error: any) => console.log("Login failed: ", error),
   });
@@ -43,7 +43,7 @@ const Oauth: React.FC<OauthProps> = ({ setUserID }) => {
     googleLogout();
     setProfile(null);
     setUser([]);
-    setUserID(null);
+    setGoogleID(null);
   };
 
   return (

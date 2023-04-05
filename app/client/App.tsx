@@ -9,7 +9,12 @@ import Home from "./components/Home";
 import Battle from "./components/Battle";
 import './styles/styles.css'
 
+
 const App: React.FC = (): JSX.Element => {
+
+  const [username, setUsername] = useState<any>()
+  const [googleID, setGoogleID] = useState<any>()
+
   return (
     <BrowserRouter>
       <h1>5 Second Showdown</h1>
@@ -18,9 +23,9 @@ const App: React.FC = (): JSX.Element => {
       <Link to="/home">Home</Link>
       <Link to="/battle">Battle</Link>
       <Routes>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/home" element={<Home />}></Route>
+        <Route path="/login" element={<Login setUsername={setUsername} setGoogleID={setGoogleID}/>}></Route>
+        <Route path="/signup" element={<Signup setUsername={setUsername} setGoogleID={setGoogleID}/>}></Route>
+        <Route path="/home" element={<Home username={username} googleID={googleID}/>}></Route>
         <Route path="/battle" element={<Battle />}></Route>
       </Routes>
     </BrowserRouter>

@@ -1,12 +1,40 @@
-import React from "react";
+import React, {ChangeEvent, FormEvent} from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../styles/login.css";
 
-const Signup = (): JSX.Element => {
-  const [userID, setUserID] = useState<any>();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+interface props {
+  setUsername: any
+  setGoogleID: any
+}
+
+const Signup: React.FC<props> = ({setUsername, setGoogleID}: props): JSX.Element => {
+
+  const [usernameInput, setUsernameInput] = useState("")
+  const [passwordInput, setPasswordInput] = useState("");
+
+  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUsernameInput(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPasswordInput(event.target.value);
+  };
+
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: usernameInput, password: passwordInput }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -14,12 +42,12 @@ const Signup = (): JSX.Element => {
         <h1 id="login-banner">5 Second Showdown Sign Up</h1>
       </div>
       <div className="form-container">
-        <form id="input-form" action="/signup" method="POST">
+        <form id="input-form" onSubmit={handleFormSubmit}>
           <div>
-            <input type="text" id="uname" placeholder="Username"></input>
+            <input type="text" id="uname" placeholder="Username" onChange={handleUsernameChange}></input>
           </div>
           <div>
-            <input type="text" id="pword" placeholder="Password"></input>
+            <input type="text" id="pword" placeholder="Password" onChange={handlePasswordChange}></input>
           </div>
           <div className="choose-btns">
             <button id="submit-btn">Submit</button>
@@ -36,4 +64,5 @@ const Signup = (): JSX.Element => {
     </div>
   );
 };
+
 export default Signup;

@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
-import controller from "./controller";
+import controller from "../server/controller";
 
 const app: express.Express = express();
 const { createServer } = require('http');
@@ -16,13 +16,18 @@ app.use(cors());
 
 app.use(express.static(path.resolve(__dirname, "../client")));
 
+app.get("/", (req, res) => res.redirect("/login"));
+
 app.get("/users", controller.getAllUsers, (req, res) => res.status(200));
+
+app.get("/getUser", controller.getUser, (req, res) => res.status(200))
 
 app.post("/signup", controller.signUp, (req, res) => res.status(200));
 
 app.post("/login", controller.login, (req, res) => res.status(200));
 
 app.post("/google", controller.googleSL, (req, res) => res.status(200));
+
 const rooms = [{id: 'room1'}, {id: 'room2'}];
 
 app.get('/api', (req, res) => {
